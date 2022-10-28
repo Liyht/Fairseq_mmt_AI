@@ -11,31 +11,16 @@ class ImageDataset(torch.utils.data.Dataset):
     """
     def __init__(self, feat_path: str, split:str, mask_path: str, image_feat_dim: list):
         if split=="train":
-            video_list_path=os.path.join("/home/yihang/code/mmt_model_rebuild/fairseq_mmt/data/opvi-ja-en", split+".video")
-            feat_path="/data/yihang/OpusEJ_i3d_feature"
+            video_list_path=os.path.join("/data/nlp/multimodal/mmt/fairseq_mmt_AI/data/opvi-ja-en", split+".video")
+            feat_path="/data/nlp/multimodal/mmt/data/VISA_i3d_feature"
             videos=[]
             with open(video_list_path, 'r') as f:
                 videos=[line.rstrip() for line in f.readlines()]
             self.image_feat_dim=image_feat_dim
 
-            #######################
-            self.return_dist=True
-    #         if self.return_dist:
-    #             print("data_loader return average distance")
-    #             path="/home/yihang/code/dup_crowdsourcing/data/average_dist_video-dist.json"
-    #             with open(path, 'r') as f:
-    #                 self.average_dist_dict=json.load(f)
-    #             self.average_dists=[]
-
-            if self.return_dist:
-                print("data_loader return distance as 2")
-                path="/home/yihang/code/dup_crowdsourcing/data/average_dist_video-dist.json"
-                with open(path, 'r') as f:
-                    self.average_dist_dict=json.load(f)
-                for video in self.average_dist_dict:
-                    self.average_dist_dict[video]=2
-                self.average_dists=[]
-            #######################
+            self.return_dist=False
+            self.average_dist_dict={}
+            self.average_dists=[]
 
             # check whether feature files exist
             features=[]
@@ -75,7 +60,7 @@ class ImageDataset(torch.utils.data.Dataset):
 
             self.size = len(self.img_feat_paths)
         else:
-            video_list_path=os.path.join("/home/yihang/code/mmt_model_rebuild/fairseq_mmt/data/VISA-ja-en", split+".video")
+            video_list_path=os.path.join("/data/nlp/multimodal/mmt/fairseq_mmt_AI/data/opvi-ja-en", split+".video")
             videos=[]
             with open(video_list_path, 'r') as f:
                 videos=[line.rstrip() for line in f.readlines()]
@@ -95,7 +80,7 @@ class ImageDataset(torch.utils.data.Dataset):
                 # print(entry_list)
                 video_name=entry_list[-1]
                 video_type=entry_list[-2] # polysemy or omission
-                feature=os.path.join(feat_path, video_type, video_name)
+                feature=os.path.join(feat_path, video_name)
 
                 features.append(os.path.join(feat_path, feature))
                 self.average_dists.append(0)

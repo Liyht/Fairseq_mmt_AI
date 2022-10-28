@@ -506,7 +506,7 @@ class TransformerEncoder(FairseqEncoder):
         
         ### used in visualization
         import os
-        torch.save(src_tokens.cpu(), os.path.join(self.args.save_dir, 'visualization', str(self.recoder.n)+'tokens.pth'), _use_new_zipfile_serialization=False)
+        # torch.save(src_tokens.cpu(), os.path.join(self.args.save_dir, 'visualization', str(self.recoder.n)+'tokens.pth'), _use_new_zipfile_serialization=False)
 
         x, encoder_embedding = self.forward_embedding(src_tokens, token_embeddings)
 
